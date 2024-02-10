@@ -1,7 +1,10 @@
-range = -50:1:50;
-c = 4;
-fields = 30;
-x_width = 30;
+range = -80:1:80;
+c = 3;
+fields = 40;
+x_width = 40;
+
+freq = 0.1;
+wavel = 25;
 
 x_spread = linspace(-(x_width/2), x_width/2, fields);
 y_spread = zeros(1, fields);
@@ -19,6 +22,8 @@ function f = prune_fields(f, f_size)
   endfor
 endfunction
 
+tic_id = tic();
+
 f = cell(fields, 1);
 for i = 1:fields
    f{i} = field(range, range, c);
@@ -29,17 +34,22 @@ z = superpose_fields(f, fields);
 
 fig = surf(x, y, z);
 colormap("viridis");
+shading("interp");
 zlim([ -10 10 ]);
 
 
 n = 0;
 t = 0;
 while true
-  pause(0.05);
-  n += 0.4;
-  t += 0.05;
+  %pause(0.025);
+  pause(0);
+  dt = toc(tic_id)
+  tic_id = tic();
 
-  z_val = (4/fields)*sin(n);
+  n += (freq * 2 * pi)/dt;
+  t += dt;
+
+  z_val = (5/fields)*sin(n);
   for i = 1:fields
     f{i} = f{i}.add_field_data(x_spread(i), y_spread(i), z_val);
   endfor

@@ -11,7 +11,7 @@ classdef field
      function f = field (x_range, y_range, c = 3e8)
        [ f.x f.y ] = meshgrid(x_range, y_range);
        f.c = c;
-       f.prune_length = sqrt((numel(x_range))^2 + (numel(y_range))^2) / c
+       f.prune_length = sqrt((numel(x_range))^2 + (numel(y_range))^2) / c;
      endfunction
 
      function obj = add_field_data (obj, x, y, data)
@@ -28,7 +28,6 @@ classdef field
        until (exceeds_length == 0) % i - 1 represents last value where exceeds_length = 1
        obj.dat = obj.dat((i - 1):rows(obj.dat),:);
        obj.dat_time = obj.dat_time((i-1):rows(obj.dat_time),:);
-       disp(i - 1);
      endfunction
 
      function f = get_field(obj)
